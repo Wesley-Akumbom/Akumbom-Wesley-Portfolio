@@ -243,7 +243,7 @@
               <img
                 src="./assets/project-1.png"
                 alt="Project 1"
-                class="project-img"
+                class="project-img" 
               />
             </div>
             <h2 class="experience-sub-title project-title">Dummy Project One</h2>
