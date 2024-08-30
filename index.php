@@ -1,7 +1,12 @@
 <?php require "includes/header.php"; ?>
 <?php require "config/config.php"; ?>
+<?php require "cms/functions/functions.php" ?>
+
 
 <?php 
+
+  // Fetch the about data
+  $aboutData = getAboutData($conn);
 
     // Fetch profile data
     $stmt = $conn->prepare("SELECT * FROM Profile LIMIT 1");
@@ -50,45 +55,41 @@
         </div>
       </div>
     </section>
+
     <section id="about">
-      <p class="section__text__p1">Get To Know More</p>
-      <h1 class="title">About Me</h1>
-      <div class="section-container">
+    <p class="section__text__p1">Get To Know More</p>
+    <h1 class="title">About Me</h1>
+    <div class="section-container">
         <div class="about-details-container">
-          <div class="about-containers">
-            <div class="details-container">
-              <img
-                src="./assets/experience.png"
-                alt="Experience icon"
-                class="icon"
-              />
-              <h3>Experience</h3>
-              <p>2+ years <br />Backend Development</p>
+            <div class="about-containers">
+                <div class="details-container">
+                    <img src="./assets/experience.png" alt="Experience icon" class="icon" />
+                    <h3>Experience</h3>
+                    <br>
+                    <?php foreach ($aboutData['experience'] as $exp): ?>
+                        <p><?php echo htmlspecialchars($exp['years']); ?>+ years<br /><?php echo htmlspecialchars($exp['field']); ?></p><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="details-container">
+                    <img src="./assets/education.png" alt="Education icon" class="icon" />
+                    <h3>Education</h3>
+                    <br>
+                    <?php foreach ($aboutData['education'] as $edu): ?>
+                        <p><?php echo htmlspecialchars($edu['level']); ?><br /><?php echo htmlspecialchars($edu['certificate']); ?> (<?php echo htmlspecialchars($edu['year']); ?>)</p>
+                        <br>
+                        <?php endforeach; ?>
+                </div>
             </div>
-            <div class="details-container">
-              <img
-                src="./assets/education.png"
-                alt="Education icon"
-                class="icon"
-              />
-              <h3>Education</h3>
-              <p>Level 400<br />B.Eng. Computer Engineering</p>
+            <div class="text-container">
+                <p>
+                    <?php echo htmlspecialchars($profileData['about_me'] ?? 'I am a firm believer in writing clean, efficient, and well-documented code. I enjoy solving complex problems and continuously strive to improve my skills and stay updated with the latest industry trends.'); ?>
+                </p>
             </div>
-          </div>
-          <div class="text-container">
-            <p>
-              I am a firm believer in writing clean, efficient, and well-documented code. I enjoy solving complex problems and continuously strive to improve my skills and stay updated with the latest industry trends.
-            </p>
-          </div>
         </div>
-      </div>
-      <img
-        src="./assets/arrow.png"
-        alt="Arrow icon"
-        class="icon arrow"
-        onclick="location.href='./#experience'"
-      />
-    </section>
+    </div>
+    <img src="./assets/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#experience'" />
+  </section>
+
     <section id="experience">
       <p class="section__text__p1">Explore My</p>
       <h1 class="title">Experience</h1>

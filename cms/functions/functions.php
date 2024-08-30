@@ -39,3 +39,33 @@ function sanitizeInput($input, $type) {
             return $input;
     }
 }
+
+function getAboutData($conn) {
+    $stmt = $conn->prepare("SELECT * FROM About ORDER BY exp_years DESC");
+    $stmt->execute();
+    $aboutData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $experience = [];
+    $education = [];
+
+    foreach ($aboutData as $item) {
+        if (!empty($item['exp_years']) && !empty($item['exp_field'])) {
+            $experience[] = [
+                'years' => $item['exp_years'],
+                'field' => $item['exp_field']
+            ];
+        }
+        if (!empty($item['level']) && !empty($item['certificate'])) {
+            $education[] = [
+                'level' => $item['level'],
+                'certificate' => $item['certificate'],
+                'year' => $item['year']
+            ];
+        }
+    }
+
+    return [
+        'experience' => $experience,
+        'education' => $education
+    ];
+}
