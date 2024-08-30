@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio CMS - Admin</title>
-    <link rel="stylesheet" href="admin-style.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <header>
         <div class="logo">Portfolio CMS</div>
         <nav>
             <ul>
-                <li><a href="index.php">Dashboard</a></li>
                 <li><a href="profile.php">Profile</a></li>
                 <li><a href="about.php">About</a></li>
                 <li><a href="experience.php">Experience</a></li>

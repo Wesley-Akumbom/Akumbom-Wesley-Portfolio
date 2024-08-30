@@ -10,6 +10,12 @@ body {
     min-height: 100vh;
 }
 
+/* Center the "Manage Profile" heading */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 main {
     flex: 1;
     padding: 2rem;
@@ -64,21 +70,22 @@ form {
 }
 
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
-
 input[type="text"],
 input[type="email"],
 input[type="url"],
 textarea,
 select {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.6rem;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
