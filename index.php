@@ -5,8 +5,15 @@
 
 <?php 
 
-  // Fetch the about data
-  $aboutData = getAboutData($conn);
+    //fetch experience information
+    $find = $conn->prepare("SELECT * FROM about_exp ORDER BY updated_at DESC");
+    $find->execute();
+    $about_exp = $find->fetchAll(PDO::FETCH_OBJ);
+
+    //fetch education information
+    $select = $conn->prepare("SELECT * FROM about_edu ORDER BY updated_at DESC");
+    $select->execute();
+    $about_edu = $select->fetchAll(PDO::FETCH_OBJ);
 
     // Fetch profile data
     $stmt = $conn->prepare("SELECT * FROM Profile LIMIT 1");
@@ -41,13 +48,13 @@
         </div>
         <div id="socials-container">
           <img
-            src="./assets/linkedin.png"
+            src="./uploads/images/linkedin.png"
             alt="My LinkedIn profile"
             class="icon"
             onclick="location.href='<?php echo $profile->linkedin_url ?>'"
           />
           <img
-            src="./assets/github.png"
+            src="./uploads/images/github.png"
             alt="My Github profile"
             class="icon"
             onclick="location.href='<?php echo $profile->github_url ?>'"
@@ -63,31 +70,33 @@
         <div class="about-details-container">
             <div class="about-containers">
                 <div class="details-container">
-                    <img src="./assets/experience.png" alt="Experience icon" class="icon" />
+                    <img src="./uploads/images/experience.png" alt="Experience icon" class="icon" />
                     <h3>Experience</h3>
                     <br>
-                    <?php foreach ($aboutData['experience'] as $exp): ?>
-                        <p><?php echo htmlspecialchars($exp['years']); ?>+ years<br /><?php echo htmlspecialchars($exp['field']); ?></p><br>
+                    <?php foreach ($about_exp as $exp): ?>
+                        <p><?php echo $exp->exp_years; ?>+ years<br /><?php echo $exp->exp_field; ?></p><br>
                     <?php endforeach; ?>
                 </div>
                 <div class="details-container">
-                    <img src="./assets/education.png" alt="Education icon" class="icon" />
+                    <img src="./uploads/images/education.png" alt="Education icon" class="icon" />
                     <h3>Education</h3>
                     <br>
-                    <?php foreach ($aboutData['education'] as $edu): ?>
-                        <p><?php echo htmlspecialchars($edu['level']); ?><br /><?php echo htmlspecialchars($edu['certificate']); ?> (<?php echo htmlspecialchars($edu['year']); ?>)</p>
+                    <?php foreach ($about_edu as $edu): ?>
+                        <p><?php echo $edu->level; ?><br /><?php echo $edu->certificate; ?> (<?php echo $edu->years; ?>)</p>
                         <br>
                         <?php endforeach; ?>
                 </div>
             </div>
+            
+    
             <div class="text-container">
                 <p>
-                    <?php echo htmlspecialchars($profileData['about_me'] ?? 'I am a firm believer in writing clean, efficient, and well-documented code. I enjoy solving complex problems and continuously strive to improve my skills and stay updated with the latest industry trends.'); ?>
+                    <?php echo htmlspecialchars( $about_exp[0]->about_me ?? 'I am a firm believer in writing clean, efficient, and well-documented code. I enjoy solving complex problems and continuously strive to improve my skills and stay updated with the latest industry trends.'); ?>
                 </p>
             </div>
         </div>
     </div>
-    <img src="./assets/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#experience'" />
+    <img src="./uploads/images/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#experience'" />
   </section>
 
     <section id="experience">
@@ -100,7 +109,7 @@
             <div class="article-container">
               <article>
                 <img
-                  src="./assets/checkmark.png"
+                  src="./uploads/images/checkmark.png"
                   alt="Experience icon"
                   class="icon"
                 />
@@ -111,7 +120,7 @@
               </article>
               <article>
                 <img
-                  src="./assets/checkmark.png"
+                  src="./uploads/images/checkmark.png"
                   alt="Experience icon"
                   class="icon"
                 />
@@ -122,7 +131,7 @@
               </article>
               <article>
                 <img
-                  src="./assets/checkmark.png"
+                  src="./uploads/images/checkmark.png"
                   alt="Experience icon"
                   class="icon"
                 />
@@ -133,7 +142,7 @@
               </article>
               <article>
                 <img
-                  src="./assets/checkmark.png"
+                  src="./uploads/images/checkmark.png"
                   alt="Experience icon"
                   class="icon"
                 />
@@ -144,7 +153,7 @@
               </article>
               <article>
                 <img
-                  src="./assets/checkmark.png"
+                  src="./uploads/images/checkmark.png"
                   alt="Experience icon"
                   class="icon"
                 />
@@ -160,7 +169,7 @@
             <div class="article-container">
               <article>
                 <img
-                  src="./assets/checkmark.png"
+                  src="./uploads/images/checkmark.png"
                   alt="Experience icon"
                   class="icon"
                 />
@@ -171,7 +180,7 @@
               </article>
               <article>
                 <img
-                  src="./assets/checkmark.png"
+                  src="./uploads/images/checkmark.png"
                   alt="Experience icon"
                   class="icon"
                 />
@@ -182,7 +191,7 @@
               </article>
               <article>
                 <img
-                  src="./assets/checkmark.png"
+                  src="./uploads/images/checkmark.png"
                   alt="Experience icon"
                   class="icon"
                 />
@@ -193,7 +202,7 @@
               </article>
               <article>
                 <img
-                  src="./assets/checkmark.png"
+                  src="./uploads/images/checkmark.png"
                   alt="Experience icon"
                   class="icon"
                 />
@@ -207,7 +216,7 @@
         </div>
       </div>
       <img
-        src="./assets/arrow.png"
+        src="./uploads/images/arrow.png"
         alt="Arrow icon"
         class="icon arrow"
         onclick="location.href='./#projects'"
@@ -221,7 +230,7 @@
           <div class="details-container color-container">
             <div class="article-container">
               <img
-                src="./assets/project-1.png"
+                src="./uploads/images/project-1.png"
                 alt="Project 1"
                 class="project-img" 
               />
@@ -245,7 +254,7 @@
           <div class="details-container color-container">
             <div class="article-container">
               <img
-                src="./assets/project-2.png"
+                src="./uploads/images/project-2.png"
                 alt="Project 2"
                 class="project-img"
               />
@@ -269,7 +278,7 @@
           <div class="details-container color-container">
             <div class="article-container">
               <img
-                src="./assets/project-3.png"
+                src="./uploads/images/project-3.png"
                 alt="Project 3"
                 class="project-img"
               />
@@ -293,7 +302,7 @@
         </div>
       </div>
       <img
-        src="./assets/arrow.png"
+        src="./uploads/images/arrow.png"
         alt="Arrow icon"
         class="icon arrow"
         onclick="location.href='./#contact'"
@@ -305,7 +314,7 @@
       <div class="contact-info-upper-container">
         <div class="contact-info-container">
           <img
-            src="./assets/email.png"
+            src="./uploads/images/email.png"
             alt="Email icon"
             class="icon contact-icon email-icon"
           />
@@ -313,7 +322,7 @@
         </div>
         <div class="contact-info-container">
           <img
-            src="./assets/linkedin.png"
+            src="./uploads/images/linkedin.png"
             alt="LinkedIn icon"
             class="icon contact-icon"
           />
