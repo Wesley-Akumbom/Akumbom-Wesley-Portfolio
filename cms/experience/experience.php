@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 <?php endif; ?>
 
 <div class="add-experience-button-container">
-    <a href="add_experience.php" class="btn btn-success">Add Experience</a>
+    <a href="add-experience.php" class="btn btn-success">Add Experience</a>
 </div>
 
 <?php require_once "../includes/admin_footer.php"; ?>

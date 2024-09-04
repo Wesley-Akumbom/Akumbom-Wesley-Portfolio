@@ -21,26 +21,46 @@ if (isset($_GET['id'])) {
 
 // Handle experience update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = sanitizeInput($_POST['title']);
-    $skills = sanitizeInput($_POST['skills']);
-    $levels = sanitizeInput($_POST['levels']);
+    $title = isset($_POST['title']) ? sanitizeInput($_POST['title'], 'string') : null;
+    $skills = [];
+    $levels = [];
 
-    try {
-        $conn->beginTransaction();
-        $stmt = $conn->prepare("UPDATE experience SET title = :title, skill = :skills, level = :levels WHERE id = :id");
-        $stmt->execute([
-            ':title' => $title,
-            ':skills' => $skills,
-            ':levels' => $levels,
-            ':id' => $experienceId
-        ]);
-        $conn->commit();
-        $message = "Experience updated successfully!";
-    } catch (PDOException $e) {
-        $conn->rollBack();
-        $errors[] = "Database error: " . $e->getMessage();
+    for ($i = 0; $i < count($_POST['skill']); $i++) {
+        $skill = sanitizeInput($_POST['skill'][$i], 'string');
+        $level = sanitizeInput($_POST['level'][$i], 'string');
+
+        if (!empty($skill) && empty($level)) {
+            $errors[] = "Please fill in the level for the skill: " . $skill;
+        } elseif (!empty($skill) || !empty($level)) {
+            $skills[] = $skill;
+            $levels[] = $level;
+        }
+    }
+
+    if ($title === null && empty($skills) && empty($levels)) {
+        $errors[] = "Please update at least one field.";
+    } else {
+        try {
+            $conn->beginTransaction();
+            $stmt = $conn->prepare("UPDATE experience SET title = COALESCE(:title, title), skill = :skills, level = :levels WHERE id = :id");
+            $stmt->execute([
+                ':title' => $title,
+                ':skills' => implode(',', $skills),
+                ':levels' => implode(',', $levels),
+                ':id' => $experienceId
+            ]);
+            $conn->commit();
+            $message = "Experience updated successfully!";
+        } catch (PDOException $e) {
+            $conn->rollBack();
+            $errors[] = "Database error: " . $e->getMessage();
+        }
     }
 }
+
+// Fetch the existing skills and levels
+$existingSkills = explode(',', $experience['skill']);
+$existingLevels = explode(',', $experience['level']);
 ?>
 
 <?php require_once "../includes/admin_header.php"; ?>
@@ -65,18 +85,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="hidden" name="id" value="<?php echo $experience['id']; ?>">
     <div class="form-group">
         <label for="title">Title:</label>
-        <input type="text" id="title" name="title" value="<?php echo $experience['title']; ?>" required>
+        <input type="text" id="title" name="title" value="<?php echo $experience['title']; ?>">
     </div>
-    <div class="form-group">
-        <label for="skills">Skills (comma-separated):</label>
-        <input type="text" id="skills" name="skills" value="<?php echo $experience['skill']; ?>" required>
-    </div>
-    <div class="form-group">
-        <label for="levels">Levels (comma-separated, in the same order as skills):</label>
-        <input type="text" id="levels" name="levels" value="<?php echo $experience['level']; ?>" required>
-    </div>
-    <button type="submit" name="update" class="btn">Update Experience</button>
+    <table id="skill-table" class="experience-table">
+        <thead>
+            <tr>
+                <th>Skill</th>
+                <th>Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php for ($i = 0; $i < count($existingSkills); $i++): ?>
+                <tr>
+                    <td><input type="text" name="skill[]" value="<?php echo $existingSkills[$i]; ?>"></td>
+                    <td><input type="text" name="level[]" value="<?php echo $existingLevels[$i]; ?>"></td>
+                </tr>
+            <?php endfor; ?>
+            <tr>
+                <td><input type="text" name="skill[]"></td>
+                <td><input type="text" name="level[]"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-add">Add Row</button>
+    <button type="submit" class="btn">Update Experience</button>
     <a href="experience.php" class="btn btn-secondary">Cancel</a>
 </form>
+
+<script>
+    document.querySelector('.btn-add').addEventListener('click', function() {
+        let newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td><input type="text" name="skill[]"></td>
+            <td><input type="text" name="level[]"></td>
+        `;
+        document.querySelector('#skill-table tbody').appendChild(newRow);
+    });
+</script>
 
 <?php require_once "../includes/admin_footer.php"; ?>
