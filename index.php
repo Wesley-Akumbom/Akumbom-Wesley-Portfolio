@@ -5,6 +5,22 @@
 
 <?php 
 
+    // Fetch the profile_id
+    $stmt = $conn->prepare("SELECT id FROM Profile LIMIT 1");
+    $stmt->execute();
+    $profile = $stmt->fetch(PDO::FETCH_OBJ);
+
+    if (!$profile) {
+        $errors[] = "No profile found. Please create a profile first.";
+    }
+
+    $profile_id = $profile ? $profile->id : null;
+
+    // Fetch projects
+    $stmt = $conn->prepare("SELECT * FROM projects WHERE profile_id = :profile_id");
+    $stmt->execute([':profile_id' => $profile_id]);
+    $projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+
     // Fetch experience data
     $stmt = $conn->prepare("SELECT * FROM experience ORDER BY updated_at DESC");
     $stmt->execute();
@@ -34,11 +50,6 @@
     $stmt = $conn->prepare("SELECT * FROM Profile LIMIT 1");
     $stmt->execute();
     $profile = $stmt->fetch(PDO::FETCH_OBJ);
-
-    // Check if profile exists
-    if (!$profile) {
-        die("Profile not found. Please create a profile in the admin area.");
-    }
 ?>
 
     <section id="profile">
@@ -114,129 +125,38 @@
     <img src="./uploads/images/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#experience'" />
   </section>
 
-  <section id="experience">
-    <p class="section__text__p1">Explore My</p>
-    <h1 class="title">Experience</h1>
+  <section id="projects">
+    <p class="section__text__p1">Browse My Recent</p>
+    <h1 class="title">Projects</h1>
     <div class="experience-details-container">
         <div class="about-containers">
-            <?php foreach ($experienceGroups as $group => $groupExperiences): ?>
-            <div class="details-container">
-                <h2 class="experience-sub-title"><?php echo htmlspecialchars($group); ?></h2>
-                <div class="article-container">
-                    <?php foreach ($groupExperiences as $exp): ?>
-                    <article>
-                        <div class="skill-container">
-                            <?php
-                            $skills = explode(',', $exp->skill);
-                            $levels = explode(',', $exp->level);
-                            for ($i = 0; $i < count($skills); $i++):
-                            ?>
-                            <div class="skill-item">
-                                <!-- <img src="./uploads/images/checkmark.png" alt="Checkmark icon" class="icon" /> -->
-                                <div class="skill-info">
-                                    <h3><?php echo htmlspecialchars(trim($skills[$i])); ?></h3>
-                                    <p><?php echo htmlspecialchars(trim($levels[$i])); ?></p>
-                                    <br>
-                                </div>
-                            </div>
-                            <?php endfor; ?>
+            <?php if ($profile_id && !empty($projects)): ?>
+                <?php foreach ($projects as $project): ?>
+                    <div class="details-container color-container">
+                        <div class="article-container">
+                            <img src="<?php echo htmlspecialchars($project->image); ?>" alt="<?php echo htmlspecialchars($project->title); ?>" class="project-img">
                         </div>
-                    </article>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-            <?php endforeach; ?>
+                        <h2 class="experience-sub-title project-title"><?php echo htmlspecialchars($project->title); ?></h2>
+                        <div class="btn-container">
+                            <a href="<?php echo htmlspecialchars($project->github_url); ?>" class="btn btn-color-2 project-btn" target="_blank">
+                                Github
+                            </a>
+                            <a href="<?php echo htmlspecialchars($project->website_url); ?>" class="btn btn-color-2 project-btn" target="_blank">
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php elseif ($profile_id): ?>
+                <p>No projects found. <a href="create-project.php">Add a new project</a>.</p>
+            <?php else: ?>
+                <p>Please create a profile before adding projects.</p>
+            <?php endif; ?>
         </div>
     </div>
-    <img src="./uploads/images/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#projects'" />
+    <img src="./uploads/images/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#contact'">
 </section>
 
-    <section id="projects">
-      <p class="section__text__p1">Browse My Recent</p>
-      <h1 class="title">Projects</h1>
-      <div class="experience-details-container">
-        <div class="about-containers">
-          <div class="details-container color-container">
-            <div class="article-container">
-              <img
-                src="./uploads/images/project-1.png"
-                alt="Project 1"
-                class="project-img" 
-              />
-            </div>
-            <h2 class="experience-sub-title project-title">Dummy Project One</h2>
-            <div class="btn-container">
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Github
-              </button>
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Live Demo
-              </button>
-            </div>
-          </div>
-          <div class="details-container color-container">
-            <div class="article-container">
-              <img
-                src="./uploads/images/project-2.png"
-                alt="Project 2"
-                class="project-img"
-              />
-            </div>
-            <h2 class="experience-sub-title project-title"> Dummy Project Two</h2>
-            <div class="btn-container">
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Github
-              </button>
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Live Demo
-              </button>
-            </div>
-          </div>
-          <div class="details-container color-container">
-            <div class="article-container">
-              <img
-                src="./uploads/images/project-3.png"
-                alt="Project 3"
-                class="project-img"
-              />
-            </div>
-            <h2 class="experience-sub-title project-title">Dummy Project Three</h2>
-            <div class="btn-container">
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Github
-              </button>
-              <button
-                class="btn btn-color-2 project-btn"
-                onclick="location.href='https://github.com/'"
-              >
-                Live Demo 
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <img
-        src="./uploads/images/arrow.png"
-        alt="Arrow icon"
-        class="icon arrow"
-        onclick="location.href='./#contact'"
-      />
-    </section>
     <section id="contact">
       <p class="section__text__p1">Get in Touch</p>
       <h1 class="title">Contact Me</h1>

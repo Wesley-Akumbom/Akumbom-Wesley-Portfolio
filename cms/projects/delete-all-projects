@@ -1,0 +1,54 @@
+<?php
+require_once "../../config/config.php";
+require_once "../functions/functions.php";
+require_once "../includes/admin_header.php";
+
+// Initialize variables
+$errors = [];
+$message = '';
+
+// Fetch the profile_id
+$stmt = $conn->prepare("SELECT id FROM Profile LIMIT 1");
+$stmt->execute();
+$profile = $stmt->fetch(PDO::FETCH_OBJ);
+
+if (!$profile) {
+    $errors[] = "No profile found. Please create a profile first.";
+}
+
+$profile_id = $profile ? $profile->id : null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $stmt = $conn->prepare("DELETE FROM projects WHERE profile_id = :profile_id");
+        $stmt->execute([':profile_id' => $profile_id]);
+        $message = "All projects deleted successfully!";
+        header("Location: projects.php");
+        exit;
+    } catch (PDOException $e) {
+        $errors[] = "Database error: " . $e->getMessage();
+    }
+}
+?>
+
+<h1>Delete All Projects</h1>
+
+<?php if (!empty($errors)): ?>
+    <div class="error-messages">
+        <?php foreach ($errors as $error): ?>
+            <p><?php echo htmlspecialchars($error); ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($message)): ?>
+    <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
+<?php endif; ?>
+
+<form method="POST" action="">
+    <p>Are you sure you want to delete all projects?</p>
+    <button type="submit" class="btn btn-danger">Yes, delete all projects</button>
+    <a href="projects.php" class="btn btn-secondary">Cancel</a>
+</form>
+
+<?php require_once "../includes/admin_footer.php"; ?>

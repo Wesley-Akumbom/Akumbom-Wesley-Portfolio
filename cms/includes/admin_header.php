@@ -14,7 +14,7 @@
                 <li><a href="../profile/profile.php">Profile</a></li>
                 <li><a href="../about/about.php">About</a></li>
                 <li><a href="../experience/experience.php">Experience</a></li>
-                <li><a href="projects.php">Projects</a></li>
+                <li><a href="../projects/projects.php">Projects</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
