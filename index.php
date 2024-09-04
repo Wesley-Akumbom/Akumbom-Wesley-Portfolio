@@ -167,7 +167,7 @@
             alt="Email icon"
             class="icon contact-icon email-icon"
           />
-          <p><a href="mailto:akumbomwesley7@gmail.com">Akumbom Wesley</a></p>
+          <p><a href="mailto:<?php echo $profile->email ?>">Akumbom Wesley</a></p>
         </div>
         <div class="contact-info-container">
           <img
@@ -175,7 +175,7 @@
             alt="LinkedIn icon"
             class="icon contact-icon"
           />
-          <p><a href="https://www.linkedin.com/in/akumbom-wesley-b978ab235?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">LinkedIn</a></p>
+          <p><a href="<?php echo $profile->linkedin_url ?>">LinkedIn</a></p>
         </div>
       </div>
     </section>
