@@ -295,7 +295,7 @@
                 class="btn btn-color-2 project-btn"
                 onclick="location.href='https://github.com/'"
               >
-                Live Demo
+                Live Demo 
               </button>
             </div>
           </div>
