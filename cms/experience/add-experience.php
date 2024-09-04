@@ -21,9 +21,13 @@ $profile_id = $profile ? $profile->id : null;
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
     // Sanitize and assign new values
-    $skill = sanitizeInput($_POST['skill'], 'string');
     $title = sanitizeInput($_POST['title'], 'string');
-    $level = sanitizeInput($_POST['level'], 'string');
+    $skills = array_map('sanitizeInput', explode(',', $_POST['skills']), array_fill(0, count(explode(',', $_POST['skills'])), 'string'));
+    $levels = array_map('sanitizeInput', explode(',', $_POST['levels']), array_fill(0, count(explode(',', $_POST['levels'])), 'string'));
+
+    // Combine skills and levels into a single string
+    $skillsString = implode(',', $skills);
+    $levelsString = implode(',', $levels);
 
     if (empty($errors)) {
         try {
@@ -33,14 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
             $stmt = $conn->prepare("INSERT INTO experience (skill, title, level, profile_id, created_at, updated_at)
                                    VALUES (:skill, :title, :level, :profile_id, NOW(), NOW())");
             $stmt->execute([
-                ':skill' => $skill,
+                ':skill' => $skillsString,
                 ':title' => $title,
-                ':level' => $level,
+                ':level' => $levelsString,
                 ':profile_id' => $profile_id
             ]);
 
             $conn->commit();
-            $message = "Experience added successfully!";
+            $message = "Experiences added successfully!";
         } catch (PDOException $e) {
             $conn->rollBack();
             $errors[] = "Database error: " . $e->getMessage();
@@ -51,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
 
 <?php require_once "../includes/admin_header.php"; ?>
 
-<h1>Add Experience</h1>
+<h1>Add Experiences</h1>
 
 <?php if (!empty($errors)): ?>
     <div class="error-messages">
@@ -68,27 +72,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
 <?php if ($profile_id): ?>
     <form method="POST" action="">
         <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" required>
-            </div>
-        <div class="form-group">
-            <label for="skill">Skill:</label>
-            <input type="text" id="skill" name="skill" required>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
         </div>
         <div class="form-group">
-            <label for="level">Level:</label>
-            <select id="level" name="level" required>
-                <option value="">Select Level</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-                <option value="Expert">Expert</option>
-            </select>
+            <label for="skills">Skills (comma-separated):</label>
+            <input type="text" id="skills" name="skills" required>
         </div>
-        <button type="submit" class="btn">Add Experience</button>
+        <div class="form-group">
+            <label for="levels">Levels (comma-separated, in the same order as skills):</label>
+            <input type="text" id="levels" name="levels" required>
+        </div>
+        <button type="submit" class="btn">Add Experiences</button>
     </form>
 <?php else: ?>
-    <p>Please create a profile before adding experience.</p>
+    <p>Please create a profile before adding experiences.</p>
 <?php endif; ?>
 
 <?php require_once "../includes/admin_footer.php"; ?>

@@ -125,10 +125,21 @@
                 <div class="article-container">
                     <?php foreach ($groupExperiences as $exp): ?>
                     <article>
-                        <img src="./uploads/images/checkmark.png" alt="Experience icon" class="icon" />
-                        <div>
-                            <h3><?php echo htmlspecialchars($exp->skill); ?></h3>
-                            <p><?php echo htmlspecialchars($exp->level); ?></p>
+                        <div class="skill-container">
+                            <?php
+                            $skills = explode(',', $exp->skill);
+                            $levels = explode(',', $exp->level);
+                            for ($i = 0; $i < count($skills); $i++):
+                            ?>
+                            <div class="skill-item">
+                                <!-- <img src="./uploads/images/checkmark.png" alt="Checkmark icon" class="icon" /> -->
+                                <div class="skill-info">
+                                    <h3><?php echo htmlspecialchars(trim($skills[$i])); ?></h3>
+                                    <p><?php echo htmlspecialchars(trim($levels[$i])); ?></p>
+                                    <br>
+                                </div>
+                            </div>
+                            <?php endfor; ?>
                         </div>
                     </article>
                     <?php endforeach; ?>
@@ -138,7 +149,7 @@
         </div>
     </div>
     <img src="./uploads/images/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#projects'" />
-  </section>
+</section>
 
     <section id="projects">
       <p class="section__text__p1">Browse My Recent</p>
