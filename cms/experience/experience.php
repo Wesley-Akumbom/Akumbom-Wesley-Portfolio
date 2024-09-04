@@ -9,18 +9,39 @@ $stmt->execute();
 $experiences = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 // Handle experience deletion
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
-    $deleteId = sanitizeInput($_POST['delete_id'], 'int');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['delete_id'])) {
+        $deleteId = sanitizeInput($_POST['delete_id'], 'int');
 
-    try {
-        $conn->beginTransaction();
-        $stmt = $conn->prepare("DELETE FROM experience WHERE id = :id");
-        $stmt->execute([':id' => $deleteId]);
-        $conn->commit();
-        $message = "Experience deleted successfully!";
-    } catch (PDOException $e) {
-        $conn->rollBack();
-        $errors[] = "Database error: " . $e->getMessage();
+        try {
+            $conn->beginTransaction();
+            $stmt = $conn->prepare("DELETE FROM experience WHERE id = :id");
+            $stmt->execute([':id' => $deleteId]);
+            $conn->commit();
+            $message = "Experience deleted successfully!";
+
+            // Redirect to the same page to refresh the list
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
+        } catch (PDOException $e) {
+            $conn->rollBack();
+            $errors[] = "Database error: " . $e->getMessage();
+        }
+    } elseif (isset($_POST['delete_all'])) {
+        try {
+            $conn->beginTransaction();
+            $stmt = $conn->prepare("DELETE FROM experience WHERE profile_id = (SELECT id FROM Profile LIMIT 1)");
+            $stmt->execute();
+            $conn->commit();
+            $message = "All experiences deleted successfully!";
+
+            // Redirect to the same page to refresh the list
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
+        } catch (PDOException $e) {
+            $conn->rollBack();
+            $errors[] = "Database error: " . $e->getMessage();
+        }
     }
 }
 ?>
@@ -88,8 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     <p>No experiences found. Please add some experiences.</p>
 <?php endif; ?>
 
-<div class="add-experience-button-container">
+<div class="actions-container">
     <a href="add-experience.php" class="btn btn-success">Add Experience</a>
+    <form method="POST" action="" class="delete-all-form">
+        <button type="submit" name="delete_all" class="btn btn-danger" style="margin-left: 10px;">Delete All</button>
+    </form>
 </div>
 
 <?php require_once "../includes/admin_footer.php"; ?>
