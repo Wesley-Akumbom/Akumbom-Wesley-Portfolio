@@ -11,9 +11,9 @@
         <div class="logo">Portfolio CMS</div>
         <nav>
             <ul>
-                <li><a href="profile.php">Profile</a></li>
+                <li><a href="../profile/profile.php">Profile</a></li>
                 <li><a href="../about/about.php">About</a></li>
-                <li><a href="experience.php">Experience</a></li>
+                <li><a href="../experience/add-experience.php">Experience</a></li>
                 <li><a href="projects.php">Projects</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>

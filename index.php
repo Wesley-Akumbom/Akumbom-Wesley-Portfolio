@@ -5,7 +5,22 @@
 
 <?php 
 
-    //fetch experience information
+    // Fetch experience data
+    $stmt = $conn->prepare("SELECT * FROM experience ORDER BY updated_at DESC");
+    $stmt->execute();
+    $experiences = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    // Group the experiences by title
+    $experienceGroups = [];
+    foreach ($experiences as $experience) {
+        $group = $experience->title;
+        if (!isset($experienceGroups[$group])) {
+            $experienceGroups[$group] = [];
+        }
+        $experienceGroups[$group][] = $experience;
+    }
+
+    //fetch about-experience information
     $find = $conn->prepare("SELECT * FROM about_exp ORDER BY updated_at DESC");
     $find->execute();
     $about_exp = $find->fetchAll(PDO::FETCH_OBJ);
@@ -99,129 +114,32 @@
     <img src="./uploads/images/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#experience'" />
   </section>
 
-    <section id="experience">
-      <p class="section__text__p1">Explore My</p>
-      <h1 class="title">Experience</h1>
-      <div class="experience-details-container">
+  <section id="experience">
+    <p class="section__text__p1">Explore My</p>
+    <h1 class="title">Experience</h1>
+    <div class="experience-details-container">
         <div class="about-containers">
-          <div class="details-container">
-            <h2 class="experience-sub-title">Backend Development</h2>
-            <div class="article-container">
-              <article>
-                <img
-                  src="./uploads/images/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Python</h3>
-                  <p>Intermediate</p>
+            <?php foreach ($experienceGroups as $group => $groupExperiences): ?>
+            <div class="details-container">
+                <h2 class="experience-sub-title"><?php echo htmlspecialchars($group); ?></h2>
+                <div class="article-container">
+                    <?php foreach ($groupExperiences as $exp): ?>
+                    <article>
+                        <img src="./uploads/images/checkmark.png" alt="Experience icon" class="icon" />
+                        <div>
+                            <h3><?php echo htmlspecialchars($exp->skill); ?></h3>
+                            <p><?php echo htmlspecialchars($exp->level); ?></p>
+                        </div>
+                    </article>
+                    <?php endforeach; ?>
                 </div>
-              </article>
-              <article>
-                <img
-                  src="./uploads/images/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Kotlin</h3>
-                  <p>Basic</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./uploads/images/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Django</h3>
-                  <p>Experienced</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./uploads/images/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>JavaScript</h3>
-                  <p>Basic</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./uploads/images/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Springboot</h3>
-                  <p>Basic</p>
-                </div>
-              </article>
             </div>
-          </div>
-          <div class="details-container">
-            <h2 class="experience-sub-title">Others</h2>
-            <div class="article-container">
-              <article>
-                <img
-                  src="./uploads/images/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>PostgreSQL</h3>
-                  <p>Intermediate</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./uploads/images/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Postman</h3>
-                  <p>Intermediate</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./uploads/images/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Docker</h3>
-                  <p>Basic</p>
-                </div>
-              </article>
-              <article>
-                <img
-                  src="./uploads/images/checkmark.png"
-                  alt="Experience icon"
-                  class="icon"
-                />
-                <div>
-                  <h3>Git</h3>
-                  <p>Intermediate</p>
-                </div>
-              </article>
-            </div>
-          </div>
+            <?php endforeach; ?>
         </div>
-      </div>
-      <img
-        src="./uploads/images/arrow.png"
-        alt="Arrow icon"
-        class="icon arrow"
-        onclick="location.href='./#projects'"
-      />
-    </section>
+    </div>
+    <img src="./uploads/images/arrow.png" alt="Arrow icon" class="icon arrow" onclick="location.href='./#projects'" />
+  </section>
+
     <section id="projects">
       <p class="section__text__p1">Browse My Recent</p>
       <h1 class="title">Projects</h1>
