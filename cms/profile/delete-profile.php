@@ -31,9 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php require_once "../includes/admin_header.php"; ?>
 
-<div class="manage-profile-header">
-    <h1>Manage Profile</h1>
-</div>
+<h1>Delete Profile</h1>
 
 <?php if (!empty($errors)): ?>
     <div class="error-messages">
@@ -48,24 +46,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <?php if ($profile): ?>
-    <div class="profile-details">
-        <img src="<?php echo htmlspecialchars($profile->image); ?>" alt="Profile Image" class="profile-image">
-        <h2><?php echo htmlspecialchars($profile->name); ?></h2>
-        <p><?php echo htmlspecialchars($profile->role); ?></p>
-        <p>Email: <?php echo htmlspecialchars($profile->email); ?></p>
-        <p>LinkedIn: <a href="<?php echo htmlspecialchars($profile->linkedin_url); ?>" target="_blank"><?php echo htmlspecialchars($profile->linkedin_url); ?></a></p>
-        <p>GitHub: <a href="<?php echo htmlspecialchars($profile->github_url); ?>" target="_blank"><?php echo htmlspecialchars($profile->github_url); ?></a></p>
-        <p>Resume: <a href="<?php echo htmlspecialchars($profile->resume); ?>" target="_blank"><?php echo htmlspecialchars(basename($profile->resume)); ?></a></p>
-        <div class="actions">
-            <a href="update-profile.php" class="btn btn-primary">Update</a>
-            <form method="POST" action="" class="delete-form">
-                <input type="hidden" name="delete_profile" value="true">
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-        </div>
-    </div>
+    <p>Are you sure you want to delete the profile for <strong><?php echo htmlspecialchars($profile->name); ?></strong>?</p>
+    <form method="POST" action="">
+        <input type="hidden" name="delete_profile" value="true">
+        <button type="submit" class="btn btn-danger">Delete Profile</button>
+        <a href="profile.php" class="btn btn-secondary">Cancel</a>
+    </form>
 <?php else: ?>
-    <p>No profile found. Please <a href="create-profile.php">add a profile</a>.</p>
+    <p>No profile found to delete.</p>
+    <a href="create-profile.php" class="btn btn-primary">Create Profile</a>
 <?php endif; ?>
 
 <?php require_once "../includes/admin_footer.php"; ?>
