@@ -22,8 +22,20 @@ $profile_id = $profile ? $profile->id : null;
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
     // Sanitize and assign new values
     $title = sanitizeInput($_POST['title'], 'string');
-    $skills = array_map('sanitizeInput', explode(',', $_POST['skills']), array_fill(0, count(explode(',', $_POST['skills'])), 'string'));
-    $levels = array_map('sanitizeInput', explode(',', $_POST['levels']), array_fill(0, count(explode(',', $_POST['levels'])), 'string'));
+    $skills = [];
+    $levels = [];
+
+    for ($i = 0; $i < count($_POST['skill']); $i++) {
+        $skill = sanitizeInput($_POST['skill'][$i], 'string');
+        $level = sanitizeInput($_POST['level'][$i], 'string');
+
+        if (!empty($skill) && empty($level)) {
+            $errors[] = "Please fill in the level for the skill: " . $skill;
+        } elseif (!empty($skill) || !empty($level)) {
+            $skills[] = $skill;
+            $levels[] = $level;
+        }
+    }
 
     // Combine skills and levels into a single string
     $skillsString = implode(',', $skills);
@@ -75,16 +87,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
         </div>
-        <div class="form-group">
-            <label for="skills">Skills (comma-separated):</label>
-            <input type="text" id="skills" name="skills" required>
-        </div>
-        <div class="form-group">
-            <label for="levels">Levels (comma-separated, in the same order as skills):</label>
-            <input type="text" id="levels" name="levels" required>
-        </div>
+        <table id="skill-table" class="experience-table">
+            <thead>
+                <tr>
+                    <th>Skill</th>
+                    <th>Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="skill[]"></td>
+                    <td><input type="text" name="level[]"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="skill[]"></td>
+                    <td><input type="text" name="level[]"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="skill[]"></td>
+                    <td><input type="text" name="level[]"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-add">Add Row</button>
         <button type="submit" class="btn">Add Experiences</button>
     </form>
+
+    <script>
+        document.querySelector('.btn-add').addEventListener('click', function() {
+            let newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" name="skill[]"></td>
+                <td><input type="text" name="level[]"></td>
+            `;
+            document.querySelector('#skill-table tbody').appendChild(newRow);
+        });
+    </script>
 <?php else: ?>
     <p>Please create a profile before adding experiences.</p>
 <?php endif; ?>

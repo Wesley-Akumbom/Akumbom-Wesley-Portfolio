@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
                         ?>
                     </td>
                     <td>
-                        <a href="update_experience.php?id=<?php echo $experience->id; ?>" class="btn btn-primary">Update</a>
+                        <a href="update-experience.php?id=<?php echo $experience->id; ?>" class="btn btn-primary">Update</a>
                         <form method="POST" action="" class="delete-form">
                             <input type="hidden" name="delete_id" value="<?php echo $experience->id; ?>">
                             <button type="submit" class="btn btn-danger">Delete</button>
