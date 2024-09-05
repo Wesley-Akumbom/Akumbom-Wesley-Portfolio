@@ -4,19 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio CMS - Admin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-    <header>
-        <div class="logo">Portfolio CMS</div>
-        <nav>
-            <ul>
-                <li><a href="../profile/profile.php">Profile</a></li>
-                <li><a href="../about/about.php">About</a></li>
-                <li><a href="../experience/experience.php">Experience</a></li>
-                <li><a href="../projects/projects.php">Projects</a></li>
-                <li><a href="logout.php">Logout</a></li>
+    <header class="bg-dark text-white p-3">
+        <div class="container">
+            <h1 class="text-center">Portfolio Admin</h1>
+        </div>
+    </header>
+    <div class="d-flex">
+        <nav class="sidebar p-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="../profile/profile.php">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../about/about.php">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../experience/experience.php">Experience</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../projects/projects.php">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Logout</a>
+                </li>
             </ul>
         </nav>
-    </header>
-    <main></main>
+        <main class="flex-grow-1 p-3">

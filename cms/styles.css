@@ -10,48 +10,34 @@ body {
     min-height: 100vh;
 }
 
-/* Center the "Manage Profile" heading */
+/* Center the "Portfolio Admin" heading */
 h1 {
-    text-align: center;
     margin-bottom: 30px;
-}
-
-main {
-    flex: 1;
-    padding: 2rem;
 }
 
 /* Header Styles */
 header {
-    background-color: #333;
+    background-color: #333; /* Same as sidebar */
     color: #fff;
-    padding: 1rem 2rem;
+    padding: 1rem 0;
+}
+
+/* Sidebar Styles */
+.wrapper {
     display: flex;
+    flex-grow: 1;
+}
+
+.sidebar {
+    background-color: #333; /* Same color as header */
+    min-width: 250px; /* Increased width for sidebar */
+}
+
+.sidebar-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-nav ul {
-    list-style-type: none;
-    display: flex;
-    gap: 1rem;
-}
-
-nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-nav a:hover {
-    background-color: #555;
 }
 
 /* Footer Styles */
@@ -60,81 +46,58 @@ footer {
     color: #fff;
     text-align: center;
     padding: 1rem;
-    margin-top: auto;
 }
 
-/* Form Styles */
-form {
-    max-width: 600px;
-    margin: 0 auto;
+/* Navigation Styles */
+.nav-link {
+    color: #fff; /* White text for links */
+    padding: 0.5rem 1rem; /* Add padding for better spacing */
 }
 
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
+.nav-link:hover {
+    background-color: #555; /* Light background on hover */
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-input[type="text"],
-input[type="email"],
-input[type="url"],
-textarea,
-select {
-    width: 100%;
-    padding: 0.6rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+/* Profile Styles */
+.profile-details {
+    text-align: center; /* Center the title */
+    margin-top: 2rem;
 }
 
-button {
-    background-color: #333;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.manage-profile-header{
+    text-align: center; /* Center the title */
+    margin-top: 2rem;
 }
 
-button:hover {
-    background-color: #555;
+.manage-profile-header h1 {
+    margin-right: 1rem;
 }
 
-/* Table Styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
+.profile-image {
+    width: 27%; /* Make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 50%; /* Round frame */
+    object-fit: cover; /* Maintain aspect ratio and fill frame */
     margin-bottom: 1rem;
 }
 
-th, td {
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    text-align: left;
+.actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
 }
 
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
+.actions .btn {
+    margin-right: 1rem; /* Add space between buttons */
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     header {
-        flex-direction: column;
         text-align: center;
     }
 
-    nav ul {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    nav a {
-        display: block;
+    .profile-image {
+        width: 30%; /* Increase the image size on smaller screens */
     }
 }
