@@ -6,6 +6,11 @@ require_once "../includes/admin_header.php";
 $errors = [];
 $message = '';
 
+// Check if there's a success parameter in the URL and set the success message
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    $message = "Profile updated successfully!";
+}
+
 // Fetch existing profile data
 $stmt = $conn->prepare("SELECT * FROM Profile LIMIT 1");
 $stmt->execute();
@@ -61,7 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             if ($stmt->rowCount() > 0) {
-                $message = "Profile updated successfully!";
+                // Redirect after successful update
+                header("Location: update-profile.php?success=1");
+                exit; // Ensure the script stops after redirection
             } else {
                 $errors[] = "No changes were made to the profile.";
             }
@@ -127,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($profile->email); ?>" required>
     </div>
 
-    <button type="submit">Update Profile</button>
+    <button type="submit" class="btn btn-primary">Update Profile</button>
 </form>
 
 <?php require_once "../includes/admin_footer.php"; ?>

@@ -9,8 +9,10 @@
 </head>
 <body>
     <header class="bg-dark text-white p-3">
-        <div class="container">
-            <h1 class="text-center">Portfolio Admin</h1>
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="mb-0">Portfolio Admin</h1>
+            <!-- Add Home link here -->
+            <a href="../profile/profile.php" class="text-white">Home</a>
         </div>
     </header>
     <div class="d-flex">

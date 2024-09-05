@@ -91,7 +91,59 @@ footer {
     margin-right: 1rem; /* Add space between buttons */
 }
 
-/* Responsive Design */
+/* Update Profile Styles */
+.error-messages {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="url"],
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-group p {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.form-group img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 0.5rem;
+}
+
+
 @media (max-width: 768px) {
     header {
         text-align: center;
@@ -99,5 +151,9 @@ footer {
 
     .profile-image {
         width: 30%; /* Increase the image size on smaller screens */
+    }
+
+    .form-group img {
+        max-width: 50%;
     }
 }

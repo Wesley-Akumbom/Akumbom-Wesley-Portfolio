@@ -1,3 +1,14 @@
+<?php require "config/config.php"; ?>
+
+<?php 
+
+   // Fetch profile data
+   $stmt = $conn->prepare("SELECT * FROM Profile LIMIT 1");
+   $stmt->execute();
+   $profile = $stmt->fetch(PDO::FETCH_OBJ);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,7 +21,7 @@
   </head>
   <body>
     <nav id="desktop-nav">
-      <div class="logo">Akumbom Wesley</div>
+      <div class="logo"><?php echo htmlspecialchars($profile->name); ?></div>
       <div>
         <ul class="nav-links">
           <li><a href="#about">About</a></li>
