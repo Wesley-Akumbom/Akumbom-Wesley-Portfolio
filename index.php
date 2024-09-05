@@ -167,7 +167,7 @@
             alt="Email icon"
             class="icon contact-icon email-icon"
           />
-          <p><a href="mailto:<?php echo $profile->email ?>">Akumbom Wesley</a></p>
+          <p><a href="mailto:<?php echo $profile->email ?>"><?php echo $profile->name ?></a></p>
         </div>
         <div class="contact-info-container">
           <img

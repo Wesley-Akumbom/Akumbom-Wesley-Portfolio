@@ -1,3 +1,14 @@
+<?php require "config/config.php"; ?>
+
+<?php 
+
+   // Fetch profile data
+   $stmt = $conn->prepare("SELECT * FROM Profile LIMIT 1");
+   $stmt->execute();
+   $profile = $stmt->fetch(PDO::FETCH_OBJ);
+
+?>
+
 <footer>
   <nav>
     <div class="nav-links-container">
@@ -9,7 +20,7 @@
       </ul>
     </div>
   </nav>
-  <p>Copyright &#169; 2024 Akumbom Wesley. All Rights Reserved.</p>
+  <p>Copyright &#169; 2024 <?php echo $profile->name ?>. All Rights Reserved.</p>
 </footer>
 <script src="script.js"></script>
 </body>
