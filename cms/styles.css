@@ -144,6 +144,33 @@ footer {
 }
 
 
+/* About Page Styles */
+.about-info {
+    background-color: #f9f9f9; /* Light background for the content area */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for a card-like effect */
+}
+
+.about-info h2 {
+    margin-top: 20px;
+    font-size: 1.5rem;
+}
+
+.about-info p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Error and Success Messages */
+.error-messages {
+    margin-bottom: 20px;
+}
+
+.actions .btn {
+    min-width: 120px; /* Ensure buttons are uniform in width */
+}
+
 @media (max-width: 768px) {
     header {
         text-align: center;

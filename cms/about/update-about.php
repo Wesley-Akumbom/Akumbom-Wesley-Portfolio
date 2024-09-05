@@ -88,59 +88,68 @@ $education = $stm->fetch(PDO::FETCH_OBJ);
 
 ?>
 
-<h1>Update About Information</h1>
+<div class="container mt-5">
+    <h1 class="text-center">Update About Information</h1>
 
-<?php if (!empty($errors)): ?>
-    <div class="error-messages">
-        <?php foreach ($errors as $error): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
-<?php if (!empty($message)): ?>
-    <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
-<?php endif; ?>
-
-<?php if ($profile_id): ?>
-    <form method="POST" action="">
-        <h2>Experience</h2>
-        <div class="form-group">
-            <label for="exp_years">Years of Experience:</label>
-            <input type="number" id="exp_years" name="exp_years" value="<?php echo htmlspecialchars($experience->exp_years ?? '');?>" required>
+    <!-- Display Errors -->
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <?php foreach ($errors as $error): ?>
+                <p><?php echo htmlspecialchars($error); ?></p>
+            <?php endforeach; ?>
         </div>
+    <?php endif; ?>
 
-        <div class="form-group">
-            <label for="exp_field">Field of Experience:</label>
-            <input type="text" id="exp_field" name="exp_field" value="<?php echo htmlspecialchars($experience->exp_field ?? ''); ?>" required>
+    <!-- Success Message -->
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-success">
+            <p><?php echo htmlspecialchars($message); ?></p>
         </div>
+    <?php endif; ?>
 
-        <h2>Education</h2>
-        <div class="form-group">
-            <label for="level">Education Level:</label>
-            <input type="text" id="level" name="level" value="<?php echo htmlspecialchars($education->level ?? ''); ?>" required>
+    <!-- Form to update experience and education -->
+    <?php if ($profile_id): ?>
+        <form method="POST" action="" class="mt-4">
+            <h2 class="text-primary">Experience</h2>
+            <div class="form-group">
+                <label for="exp_years">Years of Experience:</label>
+                <input type="number" class="form-control" id="exp_years" name="exp_years" value="<?php echo htmlspecialchars($experience->exp_years ?? ''); ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="exp_field">Field of Experience:</label>
+                <input type="text" class="form-control" id="exp_field" name="exp_field" value="<?php echo htmlspecialchars($experience->exp_field ?? ''); ?>" required>
+            </div>
+
+            <h2 class="text-primary mt-4">Education</h2>
+            <div class="form-group">
+                <label for="level">Education Level:</label>
+                <input type="text" class="form-control" id="level" name="level" value="<?php echo htmlspecialchars($education->level ?? ''); ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="certificate">Certificate:</label>
+                <input type="text" class="form-control" id="certificate" name="certificate" value="<?php echo htmlspecialchars($education->certificate ?? ''); ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="years">Year:</label>
+                <input type="text" class="form-control" id="years" name="years" value="<?php echo htmlspecialchars($education->years ?? ''); ?>" required>
+            </div>
+
+            <h2 class="text-primary mt-4">About Me</h2>
+            <div class="form-group">
+                <label for="about_me">About Me:</label>
+                <textarea class="form-control" id="about_me" name="about_me" rows="4" required><?php echo htmlspecialchars($experience->about_me ?? ''); ?></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4">Update About Information</button>
+        </form>
+    <?php else: ?>
+        <div class="alert alert-warning">
+            <p>Please create a profile before managing About information.</p>
         </div>
-
-        <div class="form-group">
-            <label for="certificate">Certificate:</label>
-            <input type="text" id="certificate" name="certificate" value="<?php echo htmlspecialchars($education->certificate ?? ''); ?>" required>
-        </div>
-
-        <div class="form-group">
-            <label for="years">Year:</label>
-            <input type="text" id="years" name="years" value="<?php echo htmlspecialchars($education->years ?? ''); ?>" required>
-        </div>
-
-        <h2>About Me</h2>
-        <div class="form-group">
-            <label for="about_me">About Me:</label>
-            <textarea id="about_me" name="about_me" required><?php echo htmlspecialchars($experience->about_me ?? ''); ?></textarea>
-        </div>
-
-        <button type="submit">Update About Information</button>
-    </form>
-<?php else: ?>
-    <p>Please create a profile before managing About information.</p>
-<?php endif; ?>
+    <?php endif; ?>
+</div>
 
 <?php require_once "../includes/admin_footer.php"; ?>
