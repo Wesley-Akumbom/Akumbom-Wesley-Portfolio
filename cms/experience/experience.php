@@ -46,14 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<?php require_once "../includes/admin_header.php"; ?>
-
 <div class="manage-experiences-header">
     <h1>Manage Experiences</h1>
 </div>
 
 <?php if (!empty($errors)): ?>
-    <div class="error-messages">
+    <div class="error-messages alert alert-danger">
         <?php foreach ($errors as $error): ?>
             <p><?php echo htmlspecialchars($error); ?></p>
         <?php endforeach; ?>
@@ -61,57 +59,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <?php if (!empty($message)): ?>
-    <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
+    <div class="success-message alert alert-success">
+        <p><?php echo htmlspecialchars($message); ?></p>
+    </div>
 <?php endif; ?>
 
-<?php if (!empty($experiences)): ?>
-    <table class="experience-table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Skills</th>
-                <th>Levels</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($experiences as $experience): ?>
+<div class="table-responsive">
+    <?php if (!empty($experiences)): ?>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
                 <tr>
-                    <td><?php echo htmlspecialchars($experience->title); ?></td>
-                    <td>
-                        <?php
-                        $skills = explode(',', $experience->skill);
-                        foreach ($skills as $skill) {
-                            echo htmlspecialchars(trim($skill)) . '<br>';
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        $levels = explode(',', $experience->level);
-                        foreach ($levels as $level) {
-                            echo htmlspecialchars(trim($level)) . '<br>';
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <a href="update-experience.php?id=<?php echo $experience->id; ?>" class="btn btn-primary">Update</a>
-                        <form method="POST" action="" class="delete-form">
-                            <input type="hidden" name="delete_id" value="<?php echo $experience->id; ?>">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
+                    <th>Title</th>
+                    <th>Skills</th>
+                    <th>Levels</th>
+                    <th>Actions</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php else: ?>
-    <p>No experiences found. Please add some experiences.</p>
-<?php endif; ?>
+            </thead>
+            <tbody>
+                <?php foreach ($experiences as $experience): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($experience->title); ?></td>
+                        <td>
+                            <?php
+                            $skills = explode(',', $experience->skill);
+                            foreach ($skills as $skill) {
+                                echo htmlspecialchars(trim($skill)) . '<br>';
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            $levels = explode(',', $experience->level);
+                            foreach ($levels as $level) {
+                                echo htmlspecialchars(trim($level)) . '<br>';
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <a href="update-experience.php?id=<?php echo $experience->id; ?>" class="btn btn-primary">Update</a>
+                            <form method="POST" action="" class="d-inline">
+                                <input type="hidden" name="delete_id" value="<?php echo $experience->id; ?>">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>No experiences found. Please add some experiences.</p>
+    <?php endif; ?>
+</div>
 
-<div class="actions-container">
+<div class="actions-container text-center mt-4">
     <a href="add-experience.php" class="btn btn-success">Add Experience</a>
-    <form method="POST" action="" class="delete-all-form">
+    <form method="POST" action="" class="d-inline">
         <button type="submit" name="delete_all" class="btn btn-danger" style="margin-left: 10px;">Delete All</button>
     </form>
 </div>

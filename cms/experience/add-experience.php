@@ -67,64 +67,70 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
 
 <?php require_once "../includes/admin_header.php"; ?>
 
-<h1>Add Experiences</h1>
+<div class="container">
+    <h1 class="text-center">Add Experiences</h1>
 
-<?php if (!empty($errors)): ?>
-    <div class="error-messages">
-        <?php foreach ($errors as $error): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
-<?php if (!empty($message)): ?>
-    <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
-<?php endif; ?>
-
-<?php if ($profile_id): ?>
-    <form method="POST" action="">
-        <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <?php foreach ($errors as $error): ?>
+                <p><?php echo htmlspecialchars($error); ?></p>
+            <?php endforeach; ?>
         </div>
-        <table id="skill-table" class="experience-table">
-            <thead>
-                <tr>
-                    <th>Skill</th>
-                    <th>Level</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input type="text" name="skill[]"></td>
-                    <td><input type="text" name="level[]"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="skill[]"></td>
-                    <td><input type="text" name="level[]"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="skill[]"></td>
-                    <td><input type="text" name="level[]"></td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="button" class="btn btn-add">Add Row</button>
-        <button type="submit" class="btn">Add Experiences</button>
-    </form>
+    <?php endif; ?>
 
-    <script>
-        document.querySelector('.btn-add').addEventListener('click', function() {
-            let newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td><input type="text" name="skill[]"></td>
-                <td><input type="text" name="level[]"></td>
-            `;
-            document.querySelector('#skill-table tbody').appendChild(newRow);
-        });
-    </script>
-<?php else: ?>
-    <p>Please create a profile before adding experiences.</p>
-<?php endif; ?>
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-success">
+            <p><?php echo htmlspecialchars($message); ?></p>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($profile_id): ?>
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+            <table id="skill-table" class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Skill</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="skill[]" class="form-control"></td>
+                        <td><input type="text" name="level[]" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="skill[]" class="form-control"></td>
+                        <td><input type="text" name="level[]" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="skill[]" class="form-control"></td>
+                        <td><input type="text" name="level[]" class="form-control"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Add Experiences</button>
+                <button type="button" class="btn btn-secondary btn-add">Add Row</button>
+            </div>
+        </form>
+
+        <script>
+            document.querySelector('.btn-add').addEventListener('click', function() {
+                let newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td><input type="text" name="skill[]" class="form-control"></td>
+                    <td><input type="text" name="level[]" class="form-control"></td>
+                `;
+                document.querySelector('#skill-table tbody').appendChild(newRow);
+            });
+        </script>
+    <?php else: ?>
+        <p>Please create a profile before adding experiences.</p>
+    <?php endif; ?>
+</div>
 
 <?php require_once "../includes/admin_footer.php"; ?>
