@@ -1,8 +1,6 @@
 <?php
 require_once "../../config/config.php";
 require_once "../functions/functions.php";
-require_once "../includes/admin_header.php";
-
 session_start(); // Start the session
 
 // Check if the user is logged in
@@ -11,6 +9,8 @@ if (!isset($_SESSION['user_id'])) {
     header("location: ".ADMINURL."");
     exit; // Ensure the script stops after redirection
 }
+
+require_once "../includes/admin_header.php"; // Include the header which contains the sidebar
 
 // Fetch the profile_id
 $stmt = $conn->prepare("SELECT id FROM Profile LIMIT 1");
@@ -66,9 +66,66 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
         $errors[] = "Database error: " . $e->getMessage();
     }
 }
+?>
 
-// Include the admin header and display the form
-require_once "../includes/admin_header.php";
-// ... (Form and content similar to about.php)
-require_once "../includes/admin_footer.php";
-?>  
+<div class="container my-5">
+    <h1 class="text-center mb-4">Create About Information</h1>
+
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <?php foreach ($errors as $error): ?>
+                <p><?php echo htmlspecialchars($error); ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-success">
+            <p><?php echo htmlspecialchars($message); ?></p>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($profile_id): ?>
+        <form method="POST" action="" class="w-75 mx-auto">
+            <div class="form-group">
+                <label for="exp_years">Years of Experience:</label>
+                <input type="number" id="exp_years" name="exp_years" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="exp_field">Field of Experience:</label>
+                <input type="text" id="exp_field" name="exp_field" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="about_me">About Me:</label>
+                <textarea id="about_me" name="about_me" class="form-control" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="level">Education Level:</label>
+                <input type="text" id="level" name="level" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="certificate">Certificate:</label>
+                <input type="text" id="certificate" name="certificate" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="years">Year:</label>
+                <input type="text" id="years" name="years" class="form-control" required>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    <?php else: ?>
+        <div class="alert alert-danger">
+            <p>Please create a profile before managing About information.</p>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php require_once "../includes/admin_footer.php"; ?>

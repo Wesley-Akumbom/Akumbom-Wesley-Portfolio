@@ -15,7 +15,9 @@
     <header class="bg-dark text-white p-3">
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="mb-0">Portfolio Admin</h1>
+            <?php if (isset($_SESSION['user_id'])): ?>
             <a href="../profile/profile.php" class="text-white">Home</a>
+            <?php endif ?>
         </div>
     </header>
 

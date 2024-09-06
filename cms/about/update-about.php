@@ -1,8 +1,6 @@
 <?php
 require_once "../../config/config.php";
 require_once "../functions/functions.php";
-require_once "../includes/admin_header.php";
-
 session_start(); // Start the session
 
 // Initialize variables
@@ -15,6 +13,8 @@ if (!isset($_SESSION['user_id'])) {
     header("location: ".ADMINURL."");
     exit; // Ensure the script stops after redirection
 }
+
+require_once "../includes/admin_header.php"; // Include the header which contains the sidebar
 
 // Fetch the profile_id
 $stmt = $conn->prepare("SELECT id FROM Profile LIMIT 1");
@@ -94,7 +94,6 @@ $experience = $stmt->fetch(PDO::FETCH_OBJ);
 $stm = $conn->prepare("SELECT * FROM about_edu WHERE profile_id = :profile_id");
 $stm->execute([':profile_id' => $profile_id]);
 $education = $stm->fetch(PDO::FETCH_OBJ);
-
 ?>
 
 <div class="container mt-5">

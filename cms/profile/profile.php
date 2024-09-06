@@ -1,14 +1,12 @@
 <?php
 require_once "../../config/config.php";
 require_once "../functions/functions.php";
-require_once "../includes/admin_header.php";
-
 session_start(); // Start the session
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     // Redirect to the login page if not logged in
-    header("location: ".ADMINURL."");
+    header("location: ".ADMINURL."");// Ensure this points to your login page
     exit; // Ensure the script stops after redirection
 }
 
@@ -36,9 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-?>
 
-<?php require_once "../includes/admin_header.php"; ?>
+require_once "../includes/admin_header.php"; // Include the header which contains the sidebar
+
+?>
 
 <div class="manage-profile-header">
     <h1>Manage Profile</h1>

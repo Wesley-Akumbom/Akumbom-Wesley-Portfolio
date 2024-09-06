@@ -1,9 +1,9 @@
-<?php require "../includes/admin_header.php"; ?>
-<?php require "../../config/config.php"; ?>
-
 <?php 
+require "../../config/config.php"; 
 
-    session_start(); // Start the session
+session_start(); // Start the session
+
+require "../includes/admin_header.php";
 
     // Check if the user is logged in
     if (!isset($_SESSION['user_id'])) {

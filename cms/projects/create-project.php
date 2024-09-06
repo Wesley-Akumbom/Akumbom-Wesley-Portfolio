@@ -1,9 +1,11 @@
 <?php
 require_once "../../config/config.php";
 require_once "../functions/functions.php";
-require_once "../includes/admin_header.php";
+
 
 session_start(); // Start the session
+
+require_once "../includes/admin_header.php";
 
 // Initialize variables
 $errors = [];

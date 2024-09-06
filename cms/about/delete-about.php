@@ -1,8 +1,6 @@
 <?php
 require_once "../../config/config.php";
 require_once "../functions/functions.php";
-require_once "../includes/admin_header.php";
-
 session_start(); // Start the session
 
 // Initialize variables
@@ -15,6 +13,8 @@ if (!isset($_SESSION['user_id'])) {
     header("location: ".ADMINURL."");
     exit; // Ensure the script stops after redirection
 }
+
+require_once "../includes/admin_header.php"; // Include the header which contains the sidebar
 
 // Fetch the profile_id
 $stmt = $conn->prepare("SELECT id FROM Profile LIMIT 1");
@@ -47,14 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
         $errors[] = "Database error: " . $e->getMessage();
     }
 }
-
-// Include the admin header and display the form
-require_once "../includes/admin_header.php";
 ?>
 
-<div class="container">
+<div class="container mt-5">
     <h1 class="text-center">Delete About Information</h1>
 
+    <!-- Display Errors -->
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger">
             <?php foreach ($errors as $error): ?>
@@ -63,24 +61,26 @@ require_once "../includes/admin_header.php";
         </div>
     <?php endif; ?>
 
+    <!-- Success Message -->
     <?php if (!empty($message)): ?>
         <div class="alert alert-success">
             <p><?php echo htmlspecialchars($message); ?></p>
         </div>
     <?php endif; ?>
 
+    <!-- Confirmation Form -->
     <?php if ($profile_id): ?>
-        <div class="card">
-            <div class="card-body">
-                <p>Are you sure you want to delete the About information?</p>
-                <form method="POST" action="">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    <a href="about.php" class="btn btn-secondary">Cancel</a>
-                </form>
-            </div>
+        <div class="alert alert-warning">
+            <p>Are you sure you want to delete all about information associated with your profile?</p>
         </div>
+        <form method="POST" action="" class="text-center">
+            <button type="submit" class="btn btn-danger">Delete About Information</button>
+            <a href="about.php" class="btn btn-secondary">Cancel</a>
+        </form>
     <?php else: ?>
-        <p class="text-center">Please create a profile before managing About information.</p>
+        <div class="alert alert-danger">
+            <p>Please create a profile before managing About information.</p>
+        </div>
     <?php endif; ?>
 </div>
 
