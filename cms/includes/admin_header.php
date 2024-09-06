@@ -14,24 +14,28 @@
             <a href="../profile/profile.php" class="text-white">Home</a>
         </div>
     </header>
+
     <div class="d-flex flex-grow-1 wrapper"> <!-- Updated wrapper class -->
-        <nav class="sidebar p-3">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="../profile/profile.php">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../about/about.php">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../experience/experience.php">Experience</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../projects/projects.php">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
-                </li>
-            </ul>
-        </nav>
+        <?php if (isset($_SESSION['user_id'])): ?> <!-- Check if user is logged in -->
+            <nav class="sidebar p-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../profile/profile.php">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../about/about.php">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../experience/experience.php">Experience</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../projects/projects.php">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../auth/admin-logout.php">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        <?php endif; ?>
+        
         <main class="flex-grow-1 p-3">
