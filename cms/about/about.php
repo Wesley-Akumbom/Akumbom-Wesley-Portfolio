@@ -3,6 +3,15 @@ require_once "../../config/config.php";
 require_once "../functions/functions.php";
 require_once "../includes/admin_header.php";
 
+session_start(); // Start the session
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page if not logged in
+    header("location: ".ADMINURL."");
+    exit; // Ensure the script stops after redirection
+}
+
 // Fetch the profile_id
 $stmt = $conn->prepare("SELECT id FROM Profile LIMIT 1");
 $stmt->execute();

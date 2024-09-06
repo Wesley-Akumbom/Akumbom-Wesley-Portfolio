@@ -6,6 +6,13 @@ require_once "../includes/admin_header.php";
 $errors = [];
 $message = '';
 
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page if not logged in
+    header("location: ".ADMINURL."");
+    exit; // Ensure the script stops after redirection
+}
+
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = sanitizeInput($_POST['name'], 'string');

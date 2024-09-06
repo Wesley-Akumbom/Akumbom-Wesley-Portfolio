@@ -1,3 +1,7 @@
+<?php
+     define("ADMINURL", "http://localhost/Akumbom-Wesley/cms/auth/admin-login.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

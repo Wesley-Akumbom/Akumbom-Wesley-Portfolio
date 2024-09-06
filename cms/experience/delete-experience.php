@@ -3,6 +3,13 @@
 
 <?php 
 
+    // Check if the user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        // Redirect to the login page if not logged in
+        header("location: ".ADMINURL."");
+        exit; // Ensure the script stops after redirection
+    }
+
     if(isset($_POST['delete'])){
 
         $id = $_POST['id'];

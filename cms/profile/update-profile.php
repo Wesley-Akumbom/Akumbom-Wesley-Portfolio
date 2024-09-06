@@ -7,6 +7,13 @@ require_once "../includes/admin_header.php";
 $errors = [];
 $message = '';
 
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page if not logged in
+    header("location: ".ADMINURL."");
+    exit; // Ensure the script stops after redirection
+}
+
 // Check if there's a success parameter in the URL and set the success message
 if (isset($_GET['success']) && $_GET['success'] == 1) {
     $message = "Profile updated successfully!";
