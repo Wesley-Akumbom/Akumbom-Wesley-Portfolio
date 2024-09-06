@@ -3,6 +3,7 @@ require_once "../../config/config.php";
 require_once "../functions/functions.php";
 require_once "../includes/admin_header.php";
 
+// Initialize variables
 $errors = [];
 $message = '';
 
@@ -79,62 +80,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<?php require_once "../includes/admin_header.php"; ?>
+<div class="container">
+    <h1 class="text-center">Update Profile</h1>
 
-<h1>Update Profile</h1>
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <?php foreach ($errors as $error): ?>
+                <p><?php echo htmlspecialchars($error); ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
-<?php if (!empty($errors)): ?>
-    <div class="error-messages">
-        <?php foreach ($errors as $error): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-success">
+            <p><?php echo htmlspecialchars($message); ?></p>
+        </div>
+    <?php endif; ?>
 
-<?php if (!empty($message)): ?>
-    <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
-<?php endif; ?>
+    <form method="POST" action="" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($profile->name); ?>" required>
+        </div>
 
-<form method="POST" action="" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($profile->name); ?>" required>
-    </div>
+        <div class="form-group">
+            <label for="role">Role:</label>
+            <input type="text" id="role" name="role" class="form-control" value="<?php echo htmlspecialchars($profile->role); ?>" required>
+        </div>
 
-    <div class="form-group">
-        <label for="role">Role:</label>
-        <input type="text" id="role" name="role" value="<?php echo htmlspecialchars($profile->role); ?>" required>
-    </div>
+        <div class="form-group">
+            <label for="resume">Resume (PDF):</label>
+            <input type="file" id="resume" name="resume" class="form-control" accept=".pdf">
+            <p>Current resume: <?php echo htmlspecialchars(basename($profile->resume)); ?></p>
+        </div>
 
-    <div class="form-group">
-        <label for="resume">Resume (PDF):</label>
-        <input type="file" id="resume" name="resume" accept=".pdf">
-        <p>Current resume: <?php echo htmlspecialchars(basename($profile->resume)); ?></p>
-    </div>
+        <div class="form-group">
+            <label for="image">Profile Image:</label>
+            <input type="file" id="image" name="image" class="form-control" accept="image/*">
+            <p>Current image: <?php echo htmlspecialchars(basename($profile->image)); ?></p>
+            <img src="<?php echo htmlspecialchars($profile->image); ?>" alt="Profile Image" style="max-width: 200px; height: auto;">
+        </div>
 
-    <div class="form-group">
-        <label for="image">Profile Image:</label>
-        <input type="file" id="image" name="image" accept="image/*">
-        <p>Current image: <?php echo htmlspecialchars(basename($profile->image)); ?></p>
-        <img src="<?php echo htmlspecialchars($profile->image); ?>" alt="Profile Image" style="max-width: 200px;">
-    </div>
+        <div class="form-group">
+            <label for="linkedin_url">LinkedIn URL:</label>
+            <input type="url" id="linkedin_url" name="linkedin_url" class="form-control" value="<?php echo htmlspecialchars($profile->linkedin_url); ?>">
+        </div>
 
-    <div class="form-group">
-        <label for="linkedin_url">LinkedIn URL:</label>
-        <input type="url" id="linkedin_url" name="linkedin_url" value="<?php echo htmlspecialchars($profile->linkedin_url); ?>">
-    </div>
+        <div class="form-group">
+            <label for="github_url">GitHub URL:</label>
+            <input type="url" id="github_url" name="github_url" class="form-control" value="<?php echo htmlspecialchars($profile->github_url); ?>">
+        </div>
 
-    <div class="form-group">
-        <label for="github_url">GitHub URL:</label>
-        <input type="url" id="github_url" name="github_url" value="<?php echo htmlspecialchars($profile->github_url); ?>">
-    </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($profile->email); ?>" required>
+        </div>
 
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($profile->email); ?>" required>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Update Profile</button>
-</form>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
 
 <?php require_once "../includes/admin_footer.php"; ?>

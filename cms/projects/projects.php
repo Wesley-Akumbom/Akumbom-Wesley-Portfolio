@@ -24,58 +24,63 @@ $stmt->execute([':profile_id' => $profile_id]);
 $projects = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
 
-<h1>Projects</h1>
+<div class="container">
+    <h1 class="text-center">Projects</h1>
 
-<?php if (!empty($errors)): ?>
-    <div class="error-messages">
-        <?php foreach ($errors as $error): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
-<?php if (!empty($message)): ?>
-    <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
-<?php endif; ?>
-
-<?php if ($profile_id && !empty($projects)): ?>
-    <table>
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Title</th>
-                <th>GitHub URL</th>
-                <th>Live URL</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($projects as $project): ?>
-                <tr>
-                    <td><img src="<?php echo htmlspecialchars($project->image); ?>" alt="<?php echo htmlspecialchars($project->title); ?>" style="max-width: 100px;"></td>
-                    <td><?php echo htmlspecialchars($project->title); ?></td>
-                    <td><a href="<?php echo htmlspecialchars($project->github_url); ?>" target="_blank"><?php echo htmlspecialchars($project->github_url); ?></a></td>
-                    <td><a href="<?php echo htmlspecialchars($project->website_url); ?>" target="_blank"><?php echo htmlspecialchars($project->website_url); ?></a></td>
-                    <td>
-                        <a href="update-project.php?id=<?php echo $project->id; ?>" class="btn btn-primary">Update</a>
-                        <a href="delete-project.php?id=<?php echo $project->id; ?>" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <?php foreach ($errors as $error): ?>
+                <p><?php echo htmlspecialchars($error); ?></p>
             <?php endforeach; ?>
-        </tbody>
-    </table>
+        </div>
+    <?php endif; ?>
 
-    <div>
-    <a href="delete-all-projects.php" class="btn btn-danger" style="margin-top: 20px;">Delete All Projects</a>
-<?php endif; ?>
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-success">
+            <p><?php echo htmlspecialchars($message); ?></p>
+        </div>
+    <?php endif; ?>
 
-<a href="create-project.php" class="btn btn-primary" style="margin-top: 20px;">Add a new project</a>
-    </div>
+    <?php if ($profile_id && !empty($projects)): ?>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>GitHub URL</th>
+                        <th>Live URL</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($projects as $project): ?>
+                        <tr>
+                            <td><img src="<?php echo htmlspecialchars($project->image); ?>" alt="<?php echo htmlspecialchars($project->title); ?>" style="max-width: 100px;"></td>
+                            <td><?php echo htmlspecialchars($project->title); ?></td>
+                            <td><a href="<?php echo htmlspecialchars($project->github_url); ?>" target="_blank"><?php echo htmlspecialchars($project->github_url); ?></a></td>
+                            <td><a href="<?php echo htmlspecialchars($project->website_url); ?>" target="_blank"><?php echo htmlspecialchars($project->website_url); ?></a></td>
+                            <td>
+                                <a href="update-project.php?id=<?php echo $project->id; ?>" class="btn btn-primary">Update</a>
+                                <a href="delete-project.php?id=<?php echo $project->id; ?>" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
 
-<?php if ($profile_id && empty($projects)): ?>
-    <p>No projects found.</p>
-<?php elseif (!$profile_id): ?>
-    <p>Please create a profile before adding projects.</p>
-<?php endif; ?>
+        <div class="text-center mt-4">
+            <a href="delete-all-projects.php" class="btn btn-danger">Delete All Projects</a>
+            <a href="create-project.php" class="btn btn-success" style="margin-left: 10px;">Add a New Project</a>
+        </div>
+    <?php else: ?>
+        <p class="text-center">No projects found.</p>
+    <?php endif; ?>
+
+    <?php if (!$profile_id): ?>
+        <p class="text-center">Please create a profile before adding projects.</p>
+    <?php endif; ?>
+</div>
 
 <?php require_once "../includes/admin_footer.php"; ?>

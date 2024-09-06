@@ -44,30 +44,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id && $project_id) {
 }
 ?>
 
-<h1>Delete Project</h1>
+<div class="container">
+    <h1 class="text-center">Delete Project</h1>
 
-<?php if (!empty($errors)): ?>
-    <div class="error-messages">
-        <?php foreach ($errors as $error): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <?php foreach ($errors as $error): ?>
+                <p><?php echo htmlspecialchars($error); ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
-<?php if (!empty($message)): ?>
-    <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
-<?php endif; ?>
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-success">
+            <p><?php echo htmlspecialchars($message); ?></p>
+        </div>
+    <?php endif; ?>
 
-<?php if ($profile_id && $project_id): ?>
-    <div class="delete-project-container">
-        <p>Are you sure you want to delete the project "<?php echo htmlspecialchars($project->title); ?>"?</p>
-        <form method="POST" action="">
-            <button type="submit" class="btn btn-color-2">Delete</button>
-            <a href="projects.php" class="btn btn-color-2">Cancel</a>
-        </form>
-    </div>
-<?php else: ?>
-    <p>Please create a profile and a project before deleting.</p>
-<?php endif; ?>
+    <?php if ($profile_id && $project_id): ?>
+        <div class="card">
+            <div class="card-body">
+                <p>Are you sure you want to delete the project "<?php echo htmlspecialchars($project->title); ?>"?</p>
+                <form method="POST" action="" class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-danger mr-2">Delete</button>
+                    <a href="projects.php" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    <?php else: ?>
+        <p class="text-center">Please create a profile and a project before deleting.</p>
+    <?php endif; ?>
+</div>
 
 <?php require_once "../includes/admin_footer.php"; ?>

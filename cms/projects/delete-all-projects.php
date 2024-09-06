@@ -18,33 +18,20 @@ if (!$profile) {
 
 $profile_id = $profile ? $profile->id : null;
 
-// Handle form submission
+// Handle project deletion
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
     try {
-        $conn->beginTransaction();
-
-        // Delete experience information
-        $stmt = $conn->prepare("DELETE FROM about_exp WHERE profile_id = :profile_id");
+        $stmt = $conn->prepare("DELETE FROM projects WHERE profile_id = :profile_id");
         $stmt->execute([':profile_id' => $profile_id]);
-
-        // Delete education information
-        $stm = $conn->prepare("DELETE FROM about_edu WHERE profile_id = :profile_id");
-        $stm->execute([':profile_id' => $profile_id]);
-
-        $conn->commit();
-        $message = "About information deleted successfully!";
+        $message = "All projects deleted successfully!";
     } catch (PDOException $e) {
-        $conn->rollBack();
         $errors[] = "Database error: " . $e->getMessage();
     }
 }
-
-// Include the admin header and display the form
-require_once "../includes/admin_header.php";
 ?>
 
 <div class="container">
-    <h1 class="text-center">Delete About Information</h1>
+    <h1 class="text-center">Delete All Projects</h1>
 
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger">
@@ -63,15 +50,15 @@ require_once "../includes/admin_header.php";
     <?php if ($profile_id): ?>
         <div class="card">
             <div class="card-body">
-                <p>Are you sure you want to delete the About information?</p>
-                <form method="POST" action="">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    <a href="about.php" class="btn btn-secondary">Cancel</a>
+                <p>Are you sure you want to delete all projects for this profile?</p>
+                <form method="POST" action="" class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-danger mr-2">Delete All</button>
+                    <a href="projects.php" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>
         </div>
     <?php else: ?>
-        <p class="text-center">Please create a profile before managing About information.</p>
+        <p class="text-center">Please create a profile before deleting projects.</p>
     <?php endif; ?>
 </div>
 

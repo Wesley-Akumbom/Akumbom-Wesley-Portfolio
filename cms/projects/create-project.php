@@ -52,46 +52,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
 }
 ?>
 
-<h1>Create a New Project</h1>
+<div class="container">
+    <h1 class="text-center">Create a New Project</h1>
 
-<?php if (!empty($errors)): ?>
-    <div class="error-messages">
-        <?php foreach ($errors as $error): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
-<?php if (!empty($message)): ?>
-    <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
-<?php endif; ?>
-
-<?php if ($profile_id): ?>
-    <form method="POST" action="" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="image">Project Image:</label>
-            <input type="file" id="image" name="image" required>
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <?php foreach ($errors as $error): ?>
+                <p><?php echo htmlspecialchars($error); ?></p>
+            <?php endforeach; ?>
         </div>
+    <?php endif; ?>
 
-        <div class="form-group">
-            <label for="title">Project Name:</label>
-            <input type="text" id="title" name="title" required>
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-success">
+            <p><?php echo htmlspecialchars($message); ?></p>
         </div>
+    <?php endif; ?>
 
-        <div class="form-group">
-            <label for="github_url">GitHub URL:</label>
-            <input type="text" id="github_url" name="github_url" required>
-        </div>
+    <?php if ($profile_id): ?>
+        <form method="POST" action="" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="image">Project Image:</label>
+                <input type="file" id="image" name="image" class="form-control d-none" required>
+                <button type="button" class="btn btn-secondary mt-2" onclick="document.getElementById('image').click();">Select Image</button>
+            </div>
 
-        <div>
-        <label for="website_url">Website URL:</label>
-        <input type="text" id="website_url" name="website_url">
-        </div>
+            <div class="form-group">
+                <label for="title">Project Name:</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
 
-        <button type="submit">Create Project</button>
-    </form>
-<?php else: ?>
-    <p>Please create a profile before adding a project.</p>
-<?php endif; ?>
+            <div class="form-group">
+                <label for="github_url">GitHub URL:</label>
+                <input type="text" id="github_url" name="github_url" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="website_url">Website URL:</label>
+                <input type="text" id="website_url" name="website_url" class="form-control">
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Create Project</button>
+            </div>
+        </form>
+    <?php else: ?>
+        <p class="text-center">Please create a profile before adding a project.</p>
+    <?php endif; ?>
+</div>
 
 <?php require_once "../includes/admin_footer.php"; ?>
