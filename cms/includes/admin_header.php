@@ -11,11 +11,10 @@
     <header class="bg-dark text-white p-3">
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="mb-0">Portfolio Admin</h1>
-            <!-- Add Home link here -->
             <a href="../profile/profile.php" class="text-white">Home</a>
         </div>
     </header>
-    <div class="d-flex">
+    <div class="d-flex flex-grow-1 wrapper"> <!-- Updated wrapper class -->
         <nav class="sidebar p-3">
             <ul class="nav flex-column">
                 <li class="nav-item">

@@ -7,7 +7,7 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /* Ensure body takes full height */
 }
 
 /* Center the "Portfolio Admin" heading */
@@ -25,19 +25,13 @@ header {
 /* Sidebar Styles */
 .wrapper {
     display: flex;
-    flex-grow: 1;
+    flex-grow: 1; /* Allow wrapper to grow and push footer down */
 }
 
 .sidebar {
     background-color: #333; /* Same color as header */
     min-width: 250px; /* Increased width for sidebar */
-}
-
-.sidebar-content {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    color: #fff; /* White text for links */
 }
 
 /* Footer Styles */
@@ -46,6 +40,7 @@ footer {
     color: #fff;
     text-align: center;
     padding: 1rem;
+    margin-top: auto; /* Ensure footer stays at the bottom */
 }
 
 /* Navigation Styles */
@@ -57,6 +52,7 @@ footer {
 .nav-link:hover {
     background-color: #555; /* Light background on hover */
 }
+
 
 /* Profile Styles */
 .profile-details {
@@ -171,16 +167,9 @@ footer {
     min-width: 120px; /* Ensure buttons are uniform in width */
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
     header {
         text-align: center;
-    }
-
-    .profile-image {
-        width: 30%; /* Increase the image size on smaller screens */
-    }
-
-    .form-group img {
-        max-width: 50%;
     }
 }
