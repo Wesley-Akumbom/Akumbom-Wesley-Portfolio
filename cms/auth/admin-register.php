@@ -4,6 +4,9 @@ require_once "../functions/functions.php";
 
 session_start(); // Start the session
 
+require_once "../includes/admin_header.php";
+
+// Initialize variables
 $errors = [];
 $message = '';
 
@@ -11,10 +14,11 @@ $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = sanitizeInput($_POST['username'], 'string');
     $email = sanitizeInput($_POST['email'], 'email');
+    $password = sanitizeInput($_POST['password'], 'string');
 
     // Validate input
-    if (empty($username) || empty($email)) {
-        $errors[] = "Username and Email are required fields.";
+    if (empty($username) || empty($email) || empty($password)) {
+        $errors[] = "Username, Email, and Password are required fields.";
     }
 
     // Check for existing username or email
@@ -30,11 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($existingUser) {
                 $errors[] = "Username or email already exists.";
             } else {
+                // Hash the password
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
                 // Insert new user into the users table
-                $stmt = $conn->prepare("INSERT INTO users (username, email) VALUES (:username, :email)");
+                $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
                 $stmt->execute([
                     ':username' => $username,
-                    ':email' => $email
+                    ':email' => $email,
+                    ':password' => $hashedPassword
                 ]);
                 $message = "Registration successful! You can now log in.";
             }
@@ -42,10 +50,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = "Database error: " . $e->getMessage();
         }
     }
+
+    header("Location: admin-login.php");
+    exit;
 }
 ?>
-
-<?php require_once "../includes/admin_header.php"; ?>
 
 <div class="container my-5">
     <h1 class="text-center mb-4">Admin Register</h1>
@@ -73,6 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-group">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" class="form-control" required>
         </div>
 
         <div class="text-center">
