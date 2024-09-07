@@ -2,7 +2,6 @@
 require_once "../../config/config.php";
 require_once "../functions/functions.php";
 
-
 session_start(); // Start the session
 
 require_once "../includes/admin_header.php";
@@ -87,6 +86,9 @@ $projects = $stmt->fetchAll(PDO::FETCH_OBJ);
         </div>
     <?php else: ?>
         <p class="text-center">No projects found.</p>
+        <div class="text-center mt-4">
+            <a href="create-project.php" class="btn btn-success">Add a New Project</a>
+        </div>
     <?php endif; ?>
 
     <?php if (!$profile_id): ?>

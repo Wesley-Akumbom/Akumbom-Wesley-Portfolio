@@ -150,7 +150,7 @@ a:hover {
 
 section {
   padding-top: 4vh;
-  height: 96vh;
+  height: auto;
   margin: 0 10rem;
   box-sizing: border-box;
   min-height: fit-content;
@@ -158,6 +158,7 @@ section {
 
 .section-container {
   display: flex;
+  flex-direction: column;
 }
 
 /* PROFILE SECTION */
@@ -197,6 +198,7 @@ section {
 .title {
   font-size: 3rem;
   text-align: center;
+  margin-bottom: 2rem;
 }
 
 #socials-container {
@@ -314,70 +316,96 @@ section {
   margin: auto 0;
 }
 
+
 /* EXPERIENCE SECTION */
 
 #experience {
   position: relative;
+  padding-bottom: 2rem;
 }
 
-.experience-sub-title {
-  color: rgb(85, 85, 85);
-  font-weight: 600;
-  font-size: 1.75rem;
+#experience .title {
+  margin-bottom: 1rem; /* Reduce space between title and containers */
+}
+
+.about-containers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem; /* Reduced from 2rem */
   margin-bottom: 2rem;
 }
 
-.experience-details-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+.details-container {
+  padding: 1.5rem;
+  flex: 1;
+  min-width: 200px; /* Ensure containers don't get too narrow */
+  max-width: calc(33.333% - 2rem); /* Limit width for larger screens */
+  background: white;
+  border-radius: 2rem;
+  border: rgb(53, 53, 53) 0.1rem solid;
+  border-color: rgb(163, 163, 163);
+  text-align: center;
 }
 
-.article-container {
-  display: flex;
-  text-align: initial;
-  flex-wrap: wrap;
-  flex-direction: row;
-  gap: 2.5rem;
-  justify-content: space-around;
+.details-container h3 {
+  margin-bottom: 0.5rem; /* Add some space below the title */
 }
 
-article {
-  display: flex;
-  width: 10rem;
-  justify-content: space-around;
-  gap: 0.5rem;
+.details-container p {
+  margin: 0.25rem 0; /* Reduce space between paragraphs */
 }
 
-article .icon {
-  cursor: default;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .details-container {
+    max-width: calc(50% - 2rem); /* 2 items per row on medium screens */
+  }
 }
+
+@media (max-width: 480px) {
+  .details-container {
+    max-width: 100%; /* Full width on small screens */
+  }
+}
+
+
 
 /* PROJECTS SECTION */
 
 #projects {
   position: relative;
+  padding-top: 2rem;
 }
 
 .color-container {
   border-color: rgb(163, 163, 163);
   background: rgb(250, 250, 250);
+  border: 1px solid rgb(163, 163, 163); /* Added border for better visibility */
+  border-radius: 1rem; /* Rounded corners */
+  padding: 1rem; /* Padding inside the container */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
 }
 
 .project-img {
-  border-radius: 2rem;
-  width: 90%;
-  height: 90%;
+  border-radius: 1rem; /* Rounded corners for the image */
+  max-width: 100%; /* Ensure the image does not exceed the container width */
+  height: auto; /* Maintain aspect ratio */
 }
 
 .project-title {
-  margin: 1rem;
+  margin: 1rem 0; /* Space above and below the title */
   color: black;
+  font-size: 1.25rem; /* Adjust font size for better visibility */
 }
 
 .project-btn {
   color: black;
   border-color: rgb(163, 163, 163);
+  margin: 0.5rem; /* Space between buttons */
 }
 
 /* CONTACT */

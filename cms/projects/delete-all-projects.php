@@ -38,6 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $profile_id) {
     } catch (PDOException $e) {
         $errors[] = "Database error: " . $e->getMessage();
     }
+
+    header("Location: projects.php");
+    exit;
 }
 ?>
 

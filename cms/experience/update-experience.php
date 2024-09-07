@@ -1,14 +1,15 @@
-<?php
+<?php 
 require_once "../../config/config.php";
 require_once "../functions/functions.php";
-require_once "../includes/admin_header.php";
 
 session_start(); // Start the session
+
+require_once "../includes/admin_header.php";
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     // Redirect to the login page if not logged in
-    header("location: ".ADMINURL."");
+    header("location: " . ADMINURL . "");
     exit; // Ensure the script stops after redirection
 }
 
@@ -29,6 +30,9 @@ if (isset($_GET['id'])) {
 }
 
 // Handle experience update
+$errors = [];
+$message = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = isset($_POST['title']) ? sanitizeInput($_POST['title'], 'string') : null;
     $skills = [];
@@ -72,61 +76,62 @@ $existingSkills = explode(',', $experience['skill']);
 $existingLevels = explode(',', $experience['level']);
 ?>
 
-<?php require_once "../includes/admin_header.php"; ?>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Update Experience</h1>
 
-<div class="manage-experiences-header">
-    <h1>Update Experience</h1>
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+            <?php foreach ($errors as $error): ?>
+                <p><?php echo htmlspecialchars($error); ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-success">
+            <p><?php echo htmlspecialchars($message); ?></p>
+        </div>
+    <?php endif; ?>
+
+    <form method="POST" action="">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" class="form-control" value="<?php echo htmlspecialchars($experience['title']); ?>" required>
+        </div>
+        <table id="skill-table" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Skill</th>
+                    <th>Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php for ($i = 0; $i < count($existingSkills); $i++): ?>
+                    <tr>
+                        <td><input type="text" name="skill[]" class="form-control" value="<?php echo htmlspecialchars($existingSkills[$i]); ?>"></td>
+                        <td><input type="text" name="level[]" class="form-control" value="<?php echo htmlspecialchars($existingLevels[$i]); ?>"></td>
+                    </tr>
+                <?php endfor; ?>
+                <tr>
+                    <td><input type="text" name="skill[]" class="form-control"></td>
+                    <td><input type="text" name="level[]" class="form-control"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success mb-3" id="add-row">Add Row</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Update Experience</button>
+            <a href="experience.php" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
 </div>
 
-<?php if (!empty($errors)): ?>
-    <div class="error-messages">
-        <?php foreach ($errors as $error): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
-<?php if (!empty($message)): ?>
-    <p class="success-message"><?php echo htmlspecialchars($message); ?></p>
-<?php endif; ?>
-
-<form method="POST" action="">
-    <input type="hidden" name="id" value="<?php echo $experience['id']; ?>">
-    <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" value="<?php echo $experience['title']; ?>">
-    </div>
-    <table id="skill-table" class="experience-table">
-        <thead>
-            <tr>
-                <th>Skill</th>
-                <th>Level</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php for ($i = 0; $i < count($existingSkills); $i++): ?>
-                <tr>
-                    <td><input type="text" name="skill[]" value="<?php echo $existingSkills[$i]; ?>"></td>
-                    <td><input type="text" name="level[]" value="<?php echo $existingLevels[$i]; ?>"></td>
-                </tr>
-            <?php endfor; ?>
-            <tr>
-                <td><input type="text" name="skill[]"></td>
-                <td><input type="text" name="level[]"></td>
-            </tr>
-        </tbody>
-    </table>
-    <button type="button" class="btn btn-add">Add Row</button>
-    <button type="submit" class="btn">Update Experience</button>
-    <a href="experience.php" class="btn btn-secondary">Cancel</a>
-</form>
-
 <script>
-    document.querySelector('.btn-add').addEventListener('click', function() {
+    document.getElementById('add-row').addEventListener('click', function() {
         let newRow = document.createElement('tr');
         newRow.innerHTML = `
-            <td><input type="text" name="skill[]"></td>
-            <td><input type="text" name="level[]"></td>
+            <td><input type="text" name="skill[]" class="form-control"></td>
+            <td><input type="text" name="level[]" class="form-control"></td>
         `;
         document.querySelector('#skill-table tbody').appendChild(newRow);
     });

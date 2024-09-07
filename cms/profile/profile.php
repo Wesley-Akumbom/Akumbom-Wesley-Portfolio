@@ -3,6 +3,8 @@ require_once "../../config/config.php";
 require_once "../functions/functions.php";
 session_start(); // Start the session
 
+require_once "../includes/admin_header.php"; 
+
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     // Redirect to the login page if not logged in
@@ -35,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-require_once "../includes/admin_header.php"; // Include the header which contains the sidebar
 
 ?>
 
